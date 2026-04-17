@@ -1,7 +1,10 @@
 #!/bin/bash
 set -e
 
-# Initialize database if not already done
+#tells mariadb to listen on all networks
+echo "[mysqld]
+bind-address = 0.0.0.0" > /etc/mysql/mariadb.conf.d/99-custom.cnf
+
 if [ ! -d /var/lib/mysql/mysql ]; then
     mysql_install_db --user=mysql --datadir=/var/lib/mysql
 fi
