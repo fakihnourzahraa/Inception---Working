@@ -8,7 +8,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/C=LB/ST=Mont-Liban/L=Baabda/O=42/OU=42/CN=nfakih.42.fr"
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
-COPY index.html /var/www/html/index.html
+
 #im writing on the host here, i need to copy it to docker
 EXPOSE 443
 
