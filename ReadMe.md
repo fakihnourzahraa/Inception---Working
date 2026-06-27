@@ -1,3 +1,7 @@
+description, instruction, resources, project description, AI
+
+
+
 Database tests
 # Create test table and insert data
 sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "CREATE TABLE IF NOT EXISTS persistence_test (id INT, message VARCHAR(255)); INSERT INTO persistence_test VALUES (1, 'Does this survive a restart?');"

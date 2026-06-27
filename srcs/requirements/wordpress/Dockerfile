@@ -20,8 +20,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     #managing wordpress from the terminal
 RUN mkdir -p /var/www/html
 RUN chown -R www-data:www-data /var/www/html
-COPY www.conf /etc/php/8.2/fpm/pool.d/www.conf
-COPY setup-wordpress.sh /usr/local/bin/
+COPY conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+COPY tools/setup-wordpress.sh /usr/local/bin/
 #copy from pc to image
 RUN chmod +x /usr/local/bin/setup-wordpress.sh
 

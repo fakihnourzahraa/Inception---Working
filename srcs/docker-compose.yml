@@ -2,17 +2,17 @@ version: '3.8'
 
 services:
   mariadb:
-    build: ./mariadb
+    build: ./requirements/mariadb
     container_name: mariadb
     env_file: .env
     volumes:
-      - db_volume:/var/lib/mysql
+      - mariadb_volume:/var/lib/mysql
     restart: always
     networks:
       - inception_network
 
   wordpress:
-    build: ./wordpress
+    build: ./requirements/wordpress
     container_name: wordpress
     env_file: .env
     depends_on:
@@ -24,7 +24,7 @@ services:
       - inception_network
 
   nginx:
-    build: ./nginx
+    build: ./requirements/nginx
     container_name: nginx
     env_file: .env
     ports:
@@ -38,8 +38,18 @@ services:
       - inception_network
 
 volumes:
-  db_volume:
+  mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/nfakih/data/mysql
   wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/nfakih/data/wordpress
 
 networks:
   inception_network:
