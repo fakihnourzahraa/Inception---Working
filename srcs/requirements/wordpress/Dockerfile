@@ -31,4 +31,3 @@ WORKDIR /var/www/html
 #execution starts from this directory
 
 ENTRYPOINT ["setup-wordpress.sh"]
-#at container start

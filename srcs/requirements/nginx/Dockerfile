@@ -9,7 +9,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
-#im writing on the host here, i need to copy it to docker
 EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
@@ -17,4 +16,3 @@ CMD ["nginx", "-g", "daemon off;"]
 # docker processes need to be running in the background, if i put daemon on
 # it would have stopped the container
 # -g means set global directive, basically we can configure from the terminal
-# [] make it run as PID 1
