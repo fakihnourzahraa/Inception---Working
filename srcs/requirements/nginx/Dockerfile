@@ -13,6 +13,6 @@ EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
 
-# docker processes need to be running in the foregroundn, if i put daemon on
-# it would have stopped the container because the process would run (as pid 1) and exit, this way it stays alive
+# docker processes need to be running in the background, if i put daemon on
+# it would have stopped the container
 # -g means set global directive, basically we can configure from the terminal
