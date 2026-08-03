@@ -1,21 +1,18 @@
 # User Documentation
 
-This document explains how to run and use the Inception stack. It is aimed at an end user
-or administrator, not at someone modifying the code. For that, see `DEV_DOC.md`.
-
+This document explains how to run and use the Inception stack.
 ## What the stack provides
 
-Inception runs a small WordPress website inside Docker. It is made of three services, each
-in its own container:
+Inception runs a small WordPress website inside Docker. It is made of three services, each in its own container:
 
-| Service    | Role                                                                 |
-| ---------- | -------------------------------------------------------------------- |
-| `nginx`    | The only entry point. Terminates TLS and serves the site on port 443. |
-| `wordpress`| Runs WordPress via php-fpm. Executes the PHP, never talks to the outside world directly. |
-| `mariadb`  | The database. Stores all posts, users and settings.                  |
+### nginx
+The only entry point. Terminates TLS and serves the site on port 443. 
+### Wordpress
+Runs WordPress via php-fpm. Executes the PHP, never talks to the outside world directly. 
+### mariadb
+The database. Stores all posts, users and settings.                  
 
-Traffic only ever reaches NGINX. NGINX forwards PHP requests to WordPress, and WordPress
-queries MariaDB. Neither WordPress nor MariaDB is reachable from outside the Docker network.
+Traffic only ever reaches NGINX. NGINX forwards PHP requests to WordPress, and WordPress then queries MariaDB.
 
 Two Docker volumes keep data alive across restarts: one for the database, one for the
 WordPress site files.
