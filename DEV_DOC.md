@@ -1,6 +1,6 @@
 _This project has been created as part of the 42 curriculum by nfakih._
 
----## 📋 1. Environment Setup
+## Environment Setup
 
 ### Prerequisites
 
@@ -11,14 +11,13 @@ You will also need:
 -make
 
 ### Configuration & Secrets (`.env`)
-Secrets and system deployment properties are handled natively through a centralized configuration file.
+
 1. Generate your production configuration file from the provided boilerplate template:
    ```bash
    nano .env
    ```
 2. Open `.env` and fill out your specific configuration parameters.
 
-#### Required Environment Properties Checklist
 ```
 DOMAIN_NAME=
 
@@ -37,9 +36,10 @@ WP_USER_EMAIL=
 WP_TITLE= 
 WP_URL=
 ```
-## 2. Architecture & Data Flow
-Traffic originating from public client web browsers can **only ever reach the NGINX container gateway**. NGINX forms an isolated perimeter layer preventing malicious external traffic from interacting directly with upstream application endpoints.
+3. There are 2 files in secrets: db_password.txt and db_root_password.txt. Replace the passwords with the desired ones.
 
+## 2. Architecture & Data Flow
+Traffic originating from public client web browsers can only ever reach the NGINX container gateway. NGINX forms an isolated perimeter layer preventing malicious external traffic from interacting directly with upstream application endpoints.
 
 [ Port 443 ]
 Host Browser / External ----------> NGINX Container
@@ -53,7 +53,7 @@ v
 MariaDB Container
 
 
-* **Network Perimeter:** NGINX hosts TLS/SSL termination on port `443`.
+* **Network Perimeter:** NGINX hosts SSL termination on port `443`.
 * **Dynamic Gateway Processing:** NGINX handles static files directly and forwards dynamic PHP scripts upstream to the **WordPress** container via the **FastCGI** protocol.
 * **Storage Transaction Layer:** WordPress queries execution schemas from the **MariaDB** container over an isolated internal virtual application bridge network.
 
@@ -61,10 +61,9 @@ MariaDB Container
 
 ## 3. Build and Launch
 
-The complete infrastructure stack is managed via a Makefile automating routine Docker lifecycle procedures.
+The complete infrastructure stack is managed via a Makefile automating common procedures.
+This Makefile help compile required service base images, builds user-defined isolated networks, sets up volume dependencies, and provisions containers in a detached background state:
 
-### Boot Up Infrastructure
-Compiles required service base images, builds user-defined isolated networks, sets up volume dependencies, and provisions containers in a detached background state:
 ```bash
 make
 ```
@@ -85,7 +84,7 @@ make clean
 
 ## 4. Managing Containers and Volumes
 
-Use these essential Docker commands to track the health, layout, and allocation of your active system components:
+Use these Docker commands to track your active system components:
 
 ```bash
 # Monitor active container processes, health metrics, and mapping bindings
@@ -111,20 +110,20 @@ On the underlying host Linux filesystem, Docker natively stores these data direc
 /var/lib/docker/volumes/
 ```
 
-### 🧪 Database Persistence Integration Tests
-Execute this sequential testing script via the CLI terminal to manually confirm proper underlying persistence across container life cycles:
+### Database Tests
+Execute this sequential testing script via the CLI to manually confirm proper underlying persistence across container life cycles:
 
-#### Step A: Create test table and insert mock data
+#### Create test table and insert mock data
 ```bash
 sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "CREATE TABLE IF NOT EXISTS persistence_test (id INT, message VARCHAR(255)); INSERT INTO persistence_test VALUES (1, 'Does this survive a restart?');"
 ```
 
-#### Step B: View and check current status
+#### View and check current status
 ```bash
 sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
 ```
 
-#### Step C: Simulate system crash/restart cycle
+#### Simulate system crash/restart cycle
 ```bash
 # Destroy structural container containers
 docker compose down
@@ -133,38 +132,20 @@ docker compose down
 docker compose up -d
 ```
 
-#### Step D: Verify data survived the restart loop
+#### Verify data survived the restart loop
 ```bash
 sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
 ```
 
-#### Step E: Drop (delete) the table after confirmation
+#### Drop (delete) the table after confirmation
 ```bash
 sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "DROP TABLE persistence_test;"
 ```
 
-#### Step F: Verify table is gone (returns expected query error)
+#### Verify table is gone (returns expected query error)
 ```bash
 sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
 ```
-
-Would you like to build out a structured Makefile template that maps perfectly to these exact make, make stop, and make clean instructions?
-
-
-### Database tests
-#### Create test table and insert data
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "CREATE TABLE IF NOT EXISTS persistence_test (id INT, message VARCHAR(255)); INSERT INTO persistence_test VALUES (1, 'Does this survive a restart?');"
-
-#### View the data
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
-
-#### Drop (delete) the table
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "DROP TABLE persistence_test;"
-
-#### Verify it's gone (returns error - expected)
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
-
-
 Traffic only ever reaches NGINX. NGINX forwards PHP requests to WordPress, and WordPress then queries MariaDB.
 
 Two Docker volumes keep data alive across restarts: one for the database, one for the
