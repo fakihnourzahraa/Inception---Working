@@ -4,16 +4,16 @@ all: up
 
 up:
 	mkdir -p /home/nfakih/data/mysql /home/nfakih/data/wordpress
-	sudo docker-compose -f srcs/docker-compose.yml up -d --build
+	sudo docker compose -f srcs/docker-compose.yml up -d --build
 
 down:
-	sudo docker-compose -f srcs/docker-compose.yml down
+	sudo docker compose -f srcs/docker-compose.yml down
 
 stop:
-	sudo docker-compose -f srcs/docker-compose.yml stop
+	sudo docker compose -f srcs/docker-compose.yml stop
 
 start:
-	sudo docker-compose -f srcs/docker-compose.yml start
+	sudo docker compose -f srcs/docker-compose.yml start
 
 restart: down up
 
@@ -27,9 +27,9 @@ fclean: down
 re: fclean all
 
 logs:
-	sudo docker-compose -f srcs/docker-compose.yml logs -f
+	sudo docker compose -f srcs/docker-compose.yml logs -f
 
 status:
-	sudo docker-compose -f srcs/docker-compose.yml ps
+	sudo docker compose -f srcs/docker-compose.yml ps
 
 .PHONY: all up down stop start restart clean fclean re logs status
