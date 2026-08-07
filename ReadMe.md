@@ -9,7 +9,7 @@ Inception is an introduction to docker, where we set up multiple services (nginx
 ## Project Description
 
 ### Virtual Machine vs Docker
-Docker is essentially a virtual machine without it's own kernel. A virtual machine is a machine within your own that uses its own kernel, meanwhile docker is an environment within your machine that uses your kernel. They both offer the safety of being machines seperate from their hosts, meaning any securtiy vulenrability wont descent to athe host. However, docker is much more portable, storage friendly, and easier to use. 
+Docker is essentially a virtual machine without it's own kernel. A virtual machine is a machine within your own that uses its own kernel, meanwhile docker is an environment within your machine that uses your kernel. They both offer the safety of being machines seperate from their hosts, meaning any securtiy vulenrability wont descenc to the host. However, docker is much more portable, storage friendly, and easier to use. 
 
 ### Secrets vs Environment Variables
 
@@ -28,24 +28,11 @@ Docker network is the network between docker containers. Meanwhile, host network
 make
 ```
 
-### Database tests
-#### Create test table and insert data
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "CREATE TABLE IF NOT EXISTS persistence_test (id INT, message VARCHAR(255)); INSERT INTO persistence_test VALUES (1, 'Does this survive a restart?');"
-
-#### View the data
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
-
-#### Drop (delete) the table
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "DROP TABLE persistence_test;"
-
-#### Verify it's gone (returns error - expected)
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
-
 
 ## Resources
 
 ## AI Usage
-- Understanding raycasting at a more tecnical level
+
 
 *Made with lots coffee and debugging at 42 Beirut*
 

@@ -12,10 +12,6 @@ Runs WordPress via php-fpm. Executes the PHP, never talks to the outside world d
 ### mariadb
 The database. Stores all posts, users and settings.                  
 
-Traffic only ever reaches NGINX. NGINX forwards PHP requests to WordPress, and WordPress then queries MariaDB.
-
-Two Docker volumes keep data alive across restarts: one for the database, one for the
-WordPress site files.
 
 ## Prerequisites
 
@@ -51,7 +47,7 @@ make fclean
 ```
 
 This deletes the containers, the images and the contents of `/home/nfakih/data`. Your posts
-and database are gone. Use it deliberately.
+and database are gone.
 
 ## Accessing the site
 
@@ -65,7 +61,7 @@ The certificate is self-signed, so the browser will warn you that the connection
 trusted. This is expected. The traffic is fully encrypted; there is simply no Certificate
 Authority vouching for the identity. Click through the warning to continue.
 
-Note that only HTTPS on port 443 works. There is no HTTP on port 80 — this is deliberate,
+Note that only HTTPS on port 443 works. There is no HTTP on port 80. this is deliberate,
 as the subject requires NGINX to be the sole entry point over TLS.
 
 ### Administration panel
@@ -140,17 +136,3 @@ Confirm the TLS version being negotiated:
 ```bash
 openssl s_client -connect nfakih.42.fr:443 -tls1_3 </dev/null 2>/dev/null | grep Protocol
 ```
-
-## Troubleshooting
-
-**The browser cannot reach the site at all.** The hosts file entry is probably missing. Check
-with `ping nfakih.42.fr` — it should answer from `127.0.0.1`.
-
-**"502 Bad Gateway".** NGINX is up but cannot reach php-fpm. The WordPress container is
-likely still starting, or has crashed. Check `docker logs wordpress`.
-
-**"Error establishing a database connection".** MariaDB is not ready or the credentials do
-not match. Check `docker logs mariadb`.
-
-**The site is stuck on a placeholder page.** A leftover file in the WordPress volume is
-shadowing the real site. `make fclean && make` clears it.
