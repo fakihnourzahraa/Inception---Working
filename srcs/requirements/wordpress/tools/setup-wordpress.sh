@@ -14,7 +14,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 
     echo "Creating wp-config.php..."
     wp config create --dbname="$DB_NAME" --dbuser="$DB_USER" \
-        --dbpass="$(cat /run/secrets/db_password)" --dbhost="$DB_HOST" \
+        --dbpass="$(cat /run/secrets/db_password.txt)" --dbhost="$DB_HOST" \
         --allow-root
 
     echo "Installing WordPress..."

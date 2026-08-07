@@ -15,8 +15,6 @@ stop:
 start:
 	sudo docker compose -f srcs/docker-compose.yml start
 
-restart: down up
-
 clean: down
 	sudo docker system prune -f
 
@@ -32,4 +30,4 @@ logs:
 status:
 	sudo docker compose -f srcs/docker-compose.yml ps
 
-.PHONY: all up down stop start restart clean fclean re logs status
+.PHONY: all up down stop start clean fclean re logs status

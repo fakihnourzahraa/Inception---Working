@@ -1,3 +1,4 @@
+
 _This project has been created as part of the 42 curriculum by nfakih._
 
 ## Environment Setup
@@ -142,7 +143,7 @@ sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e
 sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "DROP TABLE persistence_test;"
 ```
 
-#### Verify table is gone (returns expected query error)
+#### Verify table is gone
 ```bash
 sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
 ```

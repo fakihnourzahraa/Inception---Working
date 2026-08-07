@@ -7,7 +7,7 @@ Inception is an introduction to docker, where we set up multiple services (nginx
 ## Project Description
 
 ### Virtual Machine vs Docker
-Docker is essentially a virtual machine without it's own kernel. A virtual machine is a machine within your own that uses its own kernel, meanwhile docker is an environment within your machine that uses your kernel. They both offer the safety of being machines seperate from their hosts, meaning any securtiy vulenrability wont descenc to the host. However, docker is much more portable, storage friendly, and easier to use. 
+Docker is essentially a virtual machine without it's own kernel. A virtual machine is a machine within your own that uses its own kernel, meanwhile docker is an environment within your machine that uses your kernel. They both offer the safety of being machines seperate from their hosts, meaning any security vulnerablity wont descend to the host. However, docker is much more portable, storage friendly, and easier to use. 
 
 ### Secrets vs Environment Variables
 
@@ -58,7 +58,7 @@ https://github.com/Forstman1/inception-42
 https://www.youtube.com/watch?v=pg19Z8LL06w
 
 ## AI Usage
-AI was used to simplify the learning process for this project. There was of course many other resources for me to understand from, however, the very detailed and hard to understand concepts were facilitated through AI. It also helped with testing (knowing what commands to run), and set up the env and secrets files (only since this is an educational project, and won't be used for real life cases).
+AI was used to simplify the learning process for this project aside other resources. Specifically, the very detailed and hard to understand concepts were facilitated through AI. It also helped with testing (knowing what commands to run), and set up the env and secrets files (only since this is an educational project, and won't be used for real life cases).
 
 *Made with lots coffee and debugging at 42 Beirut*
 
