@@ -25,11 +25,13 @@ Docker volumes are used to store data created and used by Docker. Bind mounts ar
 
 
 ## Instructions
-
+cd into the working directory (git repo) and:
 
 ```bash
 make
 ```
+
+Refer to USER_DOC.md for more information.
 
 ## Resources
 
@@ -56,8 +58,9 @@ https://www.youtube.com/watch?v=gAkwW2tuIqE
 https://github.com/Forstman1/inception-42
 
 https://www.youtube.com/watch?v=pg19Z8LL06w
-## AI Usage
 
+## AI Usage
+AI was used to simplify the learning process for this project. There was of course many other resources for me to understand from, however, the very detailed and hard to understand concepts were facilitated through AI. It also helped with testing (knowing what commands to run), and set up the env and secrets files (only since this is an educational project, and won't be used for real life cases).
 
 *Made with lots coffee and debugging at 42 Beirut*
 

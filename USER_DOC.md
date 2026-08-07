@@ -54,22 +54,32 @@ and database are gone.
 Open a browser and go to:
 
 ```
+https:://52.207.157.222
+```
+
+or 
+```bash
+su
+nano etc/hosts
+#and add
+52.207.157.222  nfakih.42.fr
+```
+Then open:
+```
 https://nfakih.42.fr
 ```
 
+
 The certificate is self-signed, so the browser will warn you that the connection is not
-trusted. This is expected. The traffic is fully encrypted; there is simply no Certificate
+trusted. This is expected. The traffic is fully encrypted.
 Authority vouching for the identity. Click through the warning to continue.
 
-Note that only HTTPS on port 443 works. There is no HTTP on port 80. this is deliberate,
-as the subject requires NGINX to be the sole entry point over TLS.
 
 ### Administration panel
 
 ```
 https://nfakih.42.fr/wp-admin
 ```
-
 Log in with the administrator credentials described below. From here you can write posts,
 manage users, install plugins and change site settings.
 
@@ -77,13 +87,13 @@ manage users, install plugins and change site settings.
 
 There are two WordPress accounts, created automatically on first launch:
 
-| Account       | Role          | Can do                                        |
-| ------------- | ------------- | --------------------------------------------- |
-| `nfakih`      | Administrator | Everything, including installing plugins.     |
-| `john_doe`    | Author        | Write and publish their own posts only.       |
+| Account       | Role          |
+| ------------- | ------------- |
+| `nfakih`      | Administrator |
+| `john_doe`    | Author        |
 
-The passwords are **not** stored in this repository. They live in `srcs/.env`, which is
-ignored by git, and in the `secrets/` directory. To read them on the machine running the
+The credintial livese in `srcs/.env`, which is ignored by git.
+Meanwhile, the database password live in the `secrets/` directory. To read them on the machine running the
 stack:
 
 ```bash
