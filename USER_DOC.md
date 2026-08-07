@@ -1,4 +1,5 @@
-# User Documentation
+
+_This project has been created as part of the 42 curriculum by nfakih._
 
 This document explains how to run and use the Inception stack.
 ## What the stack provides
@@ -146,3 +147,6 @@ Confirm the TLS version being negotiated:
 ```bash
 openssl s_client -connect nfakih.42.fr:443 -tls1_3 </dev/null 2>/dev/null | grep Protocol
 ```
+
+*Made with lots coffee and debugging at 42 Beirut*
+
