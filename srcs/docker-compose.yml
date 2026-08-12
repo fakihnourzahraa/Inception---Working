@@ -1,5 +1,9 @@
-version: '3.8'
 
+secrets:
+  db_password.txt:
+    file: ../secrets/db_password.txt
+  db_root_password.txt:
+    file: ../secrets/db_root_password.txt
 services:
   mariadb:
     build: ./requirements/mariadb
@@ -11,6 +15,9 @@ services:
     restart: always
     networks:
       - inception_network
+    secrets:
+      - db_password.txt
+      - db_root_password.txt
 
   wordpress:
     build: ./requirements/wordpress
@@ -24,6 +31,8 @@ services:
     restart: always
     networks:
       - inception_network
+    secrets:
+      - db_password.txt
 
   nginx:
     build: ./requirements/nginx
