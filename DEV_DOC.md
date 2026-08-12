@@ -5,7 +5,7 @@ _This project has been created as part of the 42 curriculum by nfakih._
 
 ### Prerequisites
 
-This project requires a virtual machine and/or an EC2. This helps protect your own machine from attacks. Additionally, in case you cannot configure IP addresses to domain names (sudo access requried) you will need a virtual machine.
+This project requires a virtual machine (locally or an EC2). This helps protect your own machine from attacks. Additionally, in case you cannot configure IP addresses to domain names (sudo access requried) you will need a virtual machine.
 You will also need:
 -Docker Engine
 -Docker Compose
@@ -13,7 +13,7 @@ You will also need:
 
 ### Configuration & Secrets (`.env`)
 
-1. Generate your production configuration file from the provided boilerplate template:
+1. Generate your production configuration file from the provided template:
    ```bash
    nano .env
    ```
@@ -40,16 +40,16 @@ WP_URL=
 3. There are 2 files in secrets: db_password.txt and db_root_password.txt. Replace the passwords with the desired ones.
 
 ## 2. Architecture & Data Flow
-Traffic originating from public client web browsers can only ever reach the NGINX container gateway. NGINX forms an isolated perimeter layer preventing malicious external traffic from interacting directly with upstream application endpoints.
+Traffic originating from web browsers can only ever reach the NGINX container gateway. NGINX forms an isolated layer preventing malicious external traffic from interacting directly with the rest of the program.
 
 [ Port 443 ]
-Host Browser / External ----------> NGINX Container
+Host Browser / External ---> NGINX Container
 |
-| (Port 9000 FastCGI)
+| (Port 9000)
 v
 WordPress Container
 |
-| (Port 3306 SQL Connection)
+| (Port 3306)
 v
 MariaDB Container
 
@@ -114,38 +114,32 @@ On the underlying host Linux filesystem, Docker natively stores these data direc
 ### Database Tests
 Execute this sequential testing script via the CLI to manually confirm proper underlying persistence across container life cycles:
 
-#### Create test table and insert mock data
+#### Create test table and insert data
 ```bash
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "CREATE TABLE IF NOT EXISTS persistence_test (id INT, message VARCHAR(255)); INSERT INTO persistence_test VALUES (1, 'Does this survive a restart?');"
+sudo docker exec mariadb mysql -u wpuser -p"wp_password" wordpress -e "CREATE TABLE IF NOT EXISTS persistence_test (id INT, message VARCHAR(255)); INSERT INTO persistence_test VALUES (1, 'Testing Restart');"
 ```
 
 #### View and check current status
 ```bash
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
+sudo docker exec mariadb mysql -u wpuser -p"wp_password" wordpress -e "SELECT * FROM persistence_test;"
 ```
 
-#### Simulate system crash/restart cycle
+#### Restart
 ```bash
-# Destroy structural container containers
-docker compose down
-
-# Reassemble background stacks from active volume states
-docker compose up -d
+make down
+make 
 ```
 
-#### Verify data survived the restart loop
+#### Verify data survived restart
 ```bash
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
+sudo docker exec mariadb mysql -u wpuser -p"wp_password" wordpress -e "SELECT * FROM persistence_test;"
 ```
 
-#### Drop (delete) the table after confirmation
+#### Drop table then verify it's gone
 ```bash
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "DROP TABLE persistence_test;"
+sudo docker exec mariadb mysql -u wpuser -p"wp_password" wordpress -e "DROP TABLE persistence_test;"
 ```
 
-#### Verify table is gone
-```bash
-sudo docker exec mariadb mysql -u wpuser -p"wp_secure_password_456" wordpress -e "SELECT * FROM persistence_test;"
 ```
 Traffic only ever reaches NGINX. NGINX forwards PHP requests to WordPress, and WordPress then queries MariaDB.
 
