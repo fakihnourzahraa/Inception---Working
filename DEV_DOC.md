@@ -42,20 +42,8 @@ WP_URL=
 ## 2. Architecture & Data Flow
 Traffic originating from web browsers can only ever reach the NGINX container gateway. NGINX forms an isolated layer preventing malicious external traffic from interacting directly with the rest of the program.
 
-[ Port 443 ]
-Host Browser / External ---> NGINX Container
-|
-| (Port 9000)
-v
-WordPress Container
-|
-| (Port 3306)
-v
-MariaDB Container
-
-
-* **Network Perimeter:** NGINX hosts SSL termination on port `443`.
-* **Dynamic Gateway Processing:** NGINX handles static files directly and forwards dynamic PHP scripts upstream to the **WordPress** container via the **FastCGI** protocol.
+* **Network Perimeter:** NGINX hosts SSL termination on port 443.
+* **Dynamic Gateway Processing:** NGINX handles static files directly and forwards dynamic PHP scripts to the **WordPress** container via FastCGI.
 * **Storage Transaction Layer:** WordPress queries execution schemas from the **MariaDB** container over an isolated internal virtual application bridge network.
 
 ---
@@ -88,13 +76,13 @@ make clean
 Use these Docker commands to track your active system components:
 
 ```bash
-# Monitor active container processes, health metrics, and mapping bindings
+#monitor active container processes
 docker ps
 
-# Inspect available isolated network bridge architectures
+#inspect available isolated network bridge architectures
 docker network ls
 
-# List structural logical data storage volumes registered on the machine
+#list structural logical data storage volumes registered on the machine
 docker volume ls
 ```
 
@@ -145,7 +133,6 @@ Traffic only ever reaches NGINX. NGINX forwards PHP requests to WordPress, and W
 
 Two Docker volumes keep data alive across restarts: one for the database, one for the
 WordPress site files.
-
 
 *Made with lots coffee and debugging at 42 Beirut*
 
