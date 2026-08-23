@@ -1,6 +1,8 @@
 FROM debian:bookworm
 #each from creates a single image
 
+RUN sed -i '0,/deb.debian.org\/debian$/s|deb.debian.org/debian$|ftp.debian.org/debian|' /etc/apt/sources.list.d/debian.sources
+
 RUN apt-get update && apt-get install -y \
     php-fpm php-mysql php-curl php-gd \
     php-xml php-mbstring php-zip \
