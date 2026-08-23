@@ -17,7 +17,7 @@ You will also need:
    ```bash
    nano .env
    ```
-2. Open `.env` and fill out your specific configuration parameters.
+2. Open .env and fill out your specific configuration parameters.
 
 ```
 DOMAIN_NAME=
@@ -37,14 +37,14 @@ WP_USER_EMAIL=
 WP_TITLE= 
 WP_URL=
 ```
-3. There are 2 files in secrets: db_password.txt and db_root_password.txt. Replace the passwords with the desired ones.
+3. There are 2 files in secrets: db_password.txt and db_root_password.txt. Replace the passwords with your own.
 
 ## 2. Architecture & Data Flow
 Traffic originating from web browsers can only ever reach the NGINX container gateway. NGINX forms an isolated layer preventing malicious external traffic from interacting directly with the rest of the program.
 
-* **Network Perimeter:** NGINX hosts SSL termination on port 443.
-* **Dynamic Gateway Processing:** NGINX handles static files directly and forwards dynamic PHP scripts to the **WordPress** container via FastCGI.
-* **Storage Transaction Layer:** WordPress queries execution schemas from the **MariaDB** container over an isolated internal virtual application bridge network.
+* **Networks:** NGINX hosts SSL on port 443.
+* **Dynamic Gateway Processing:** NGINX handles static files directly and forwards dynamic PHP scripts to the WordPress container.
+* **Storage Transaction Layer:** WordPress queries execution schemas from the MariaDB container over a bridge network.
 
 ---
 
@@ -91,8 +91,8 @@ docker volume ls
 ## 5. Data Storage & Persistence Verification
 
 Data state tracking across image builds, updates, or sudden software restarts is preserved using two distinct dedicated named volumes:
-1. **`test_db_volume`**: Mounts into `/var/lib/mysql` inside the container to persist relational tables.
-2. **`test_wordpress_volume`**: Mounts into `/var/www/html` to store active plugins, templates, and asset uploads.
+1. test_db_volume: Mounts into /var/lib/mysql inside the container to persist relational tables.
+2. test_wordpress_volume: Mounts into /var/www/html to store active plugins, templates, and uploads.
 
 On the underlying host Linux filesystem, Docker natively stores these data directories within:
 ```path

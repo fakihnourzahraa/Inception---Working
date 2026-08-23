@@ -12,16 +12,16 @@ fi
 mysqld_safe --skip-syslog &
 MYSQL_PID=$!
 
-echo "Waiting for MariaDB to start..."
+echo "Awaiting MariaDB start"
 until mysqladmin ping -u root --silent 2>/dev/null || mysqladmin ping -u root -p"$(cat /run/secrets/db_root_password.txt)" --silent 2>/dev/null;
 do
     sleep 1
 done
-echo "MariaDB is ready"
+echo "MariaDB is ready "
 
 if ! mysql -u root -p"$(cat /run/secrets/db_root_password.txt)" -e "USE $DB_NAME;" 2>/dev/null;
 then
-    echo "Running first-time database setup..."
+    echo "Running first-time database setup "
 
     mysql -u root <<EOF
 ALTER USER 'root'@'localhost' IDENTIFIED BY '$(cat /run/secrets/db_root_password.txt)';
