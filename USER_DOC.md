@@ -25,7 +25,7 @@ The database, which stores all posts, users and settings.
 All commands are run from the root of the repository.
 
 ```bash
-make          # builds the images and starts all the containers, this will take a few minutes
+make          # build the images and start all containers, this will take a few minutes
 make down     # stop and remove the containers (volumes are kept)
 make stop     # pause the containers without removing them
 make start    # resume paused containers
@@ -36,7 +36,7 @@ make fclean   # wipes everything, including database
 
 ## Accessing the site
 
-Open your browser and go to:
+Open a browser and go to:
 
 ```
 https:://52.207.157.222
