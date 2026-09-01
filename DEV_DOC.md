@@ -5,7 +5,7 @@ _This project has been created as part of the 42 curriculum by nfakih._
 
 ### Prerequisites
 
-This project requires a virtual machine (locally or an EC2). This helps protect your own machine from attacks. Additionally, in case you cannot configure IP addresses to domain names (sudo access requried) you will need a virtual machine.
+This project requires you use a virtual machine (locally or an EC2). This helps protect your own machine from attacks. Additionally, if you're using an EC2 and you cannot configure IP addresses to domain names (sudo access requried) you will need a virtual machine.
 You will also need:
 -Docker Engine
 -Docker Compose
@@ -42,16 +42,12 @@ WP_URL=
 ## 2. Architecture & Data Flow
 Traffic originating from web browsers can only ever reach the NGINX container gateway. NGINX forms an isolated layer preventing malicious external traffic from interacting directly with the rest of the program.
 
-* **Network Perimeter:** NGINX hosts SSL termination on port 443.
-* **Dynamic Gateway Processing:** NGINX handles static files directly and forwards dynamic PHP scripts to the **WordPress** container via FastCGI.
-* **Storage Transaction Layer:** WordPress queries execution schemas from the **MariaDB** container over an isolated internal virtual application bridge network.
-
 ---
 
 ## 3. Build and Launch
 
-The complete infrastructure stack is managed via a Makefile automating common procedures.
-This Makefile help compile required service base images, builds user-defined isolated networks, sets up volume dependencies, and provisions containers in a detached background state:
+The complete infrastructure stack is managed via a Makefile for common procedures.
+This Makefile help compile required service base images, builds user-defined isolated networks, sets up volume dependencies, and containers in a detached background state:
 
 ```bash
 make
@@ -91,8 +87,8 @@ docker volume ls
 ## 5. Data Storage & Persistence Verification
 
 Data state tracking across image builds, updates, or sudden software restarts is preserved using two distinct dedicated named volumes:
-1. **`test_db_volume`**: Mounts into `/var/lib/mysql` inside the container to persist relational tables.
-2. **`test_wordpress_volume`**: Mounts into `/var/www/html` to store active plugins, templates, and asset uploads.
+1. test_db_volume: Mounts into /var/lib/mysql inside the container to persist relational tables.
+2. test_wordpress_volume: Mounts into /var/www/html to store active plugins, templates, and asset uploads.
 
 On the underlying host Linux filesystem, Docker natively stores these data directories within:
 ```path
@@ -100,7 +96,9 @@ On the underlying host Linux filesystem, Docker natively stores these data direc
 ```
 
 ### Database Tests
-Execute this sequential testing script via the CLI to manually confirm proper underlying persistence across container life cycles:
+Execute this script via the CLI to manually confirm proper underlying persistence across container life cycles:
+
+docker exec -it mariadb mysql -u root
 
 #### Create test table and insert data
 ```bash
